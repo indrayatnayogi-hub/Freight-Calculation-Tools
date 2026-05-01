@@ -1,0 +1,5 @@
+/* Redesigned with Tailwind CSS utility classes in index.html */
+.drop-zone.drag-over {
+  border-color: rgb(37 99 235);
+  background: rgb(239 246 255);
+}
