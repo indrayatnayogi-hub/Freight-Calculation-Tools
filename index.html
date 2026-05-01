@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Freight Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-800">
+  <main class="max-w-5xl mx-auto p-4 md:p-8">
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 md:p-8 space-y-5">
+      <header>
+        <h1 class="text-2xl md:text-3xl font-bold">Air Freight Calculator</h1>
+        <p class="text-slate-500 mt-1">Drag/drop atau paste screenshot untuk OCR, lalu hitung CBM & CGWT.</p>
+      </header>
+
+      <section id="dropZone" tabindex="0" aria-label="Drop zone gambar"
+        class="drop-zone border-2 border-dashed border-slate-300 rounded-xl p-6 text-center bg-slate-50 transition">
+        <p class="font-semibold">Drag & Drop gambar di sini</p>
+        <p class="text-sm text-slate-600">atau <span class="px-2 py-0.5 bg-slate-200 rounded">Ctrl</span> + <span class="px-2 py-0.5 bg-slate-200 rounded">V</span> untuk paste screenshot</p>
+      </section>
+
+      <p id="ocrStatus" class="min-h-6 text-blue-700 font-semibold"></p>
+
+      <div id="imagePreviewWrap" class="rounded-xl border border-slate-200 bg-slate-50 p-3" hidden>
+        <p class="text-sm text-slate-500 mb-2">Preview Gambar</p>
+        <img id="imagePreview" alt="Preview gambar input" class="w-full max-h-72 object-contain rounded-lg bg-white" />
+      </div>
+
+      <div>
+        <label for="rawText" class="font-semibold block mb-2">Teks dimensi (manual / hasil OCR)</label>
+        <textarea id="rawText" class="w-full min-h-44 p-3 border border-slate-300 rounded-xl font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: DIMS 61x40x32 CM x 19"></textarea>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <button id="calculateBtn" type="button" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">Kalkulasi</button>
+        <button id="copyBtn" type="button" disabled class="px-4 py-2 rounded-lg bg-slate-400 text-white font-semibold disabled:opacity-70">Copy Table</button>
+      </div>
+
+      <section id="resultSection" hidden>
+        <h2 class="text-xl font-bold mb-2">Hasil Kalkulasi</h2>
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table id="resultTable" class="w-full text-sm">
+            <thead class="bg-slate-100">
+              <tr>
+                <th class="text-left px-4 py-3">Dimensi (PxLxT)</th>
+                <th class="text-left px-4 py-3">Qty</th>
+                <th class="text-left px-4 py-3">CBM</th>
+                <th class="text-left px-4 py-3">CGWT (kg)</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody" class="divide-y divide-slate-200"></tbody>
+            <tfoot class="bg-slate-50 font-bold">
+              <tr>
+                <td class="px-4 py-3" colspan="2">GRAND TOTAL</td>
+                <td class="px-4 py-3" id="totalCbm">0</td>
+                <td class="px-4 py-3" id="totalCgwt">0</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
