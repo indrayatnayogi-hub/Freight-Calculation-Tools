@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Freight Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <h1>Air Freight Calculator</h1>
+    <p class="subtitle">Drag & drop / paste screenshot, lalu hitung CBM dan CGWT secara otomatis.</p>
+
+    <section id="dropZone" class="drop-zone" tabindex="0" aria-label="Drop zone gambar">
+      <p><strong>Drag & Drop gambar di sini</strong></p>
+      <p>atau <kbd>Ctrl</kbd> + <kbd>V</kbd> untuk paste screenshot</p>
+      <p class="hint">Format umum yang didukung: PNG, JPG, WEBP</p>
+    </section>
+
+    <p id="ocrStatus" class="status" aria-live="polite"></p>
+
+    <div id="imagePreviewWrap" class="image-preview-wrap" hidden>
+      <p class="preview-title">Preview Gambar</p>
+      <img id="imagePreview" alt="Preview gambar input" />
+    </div>
+
+    <label for="rawText">Teks dimensi (manual / hasil OCR)</label>
+    <textarea id="rawText" placeholder="Contoh: DIMS 61x40x32 CM x 19"></textarea>
+
+    <div class="actions">
+      <button id="calculateBtn" type="button">Kalkulasi</button>
+      <button id="copyBtn" type="button" disabled>Copy Table</button>
+    </div>
+
+    <section id="resultSection" class="result-section" hidden>
+      <h2>Hasil Kalkulasi</h2>
+      <div class="table-wrapper">
+        <table id="resultTable">
+          <thead>
+            <tr>
+              <th>Dimensi (PxLxT)</th>
+              <th>Qty</th>
+              <th>CBM</th>
+              <th>CGWT (kg)</th>
+            </tr>
+          </thead>
+          <tbody id="resultBody"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">GRAND TOTAL</td>
+              <td id="totalCbm">0</td>
+              <td id="totalCgwt">0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
