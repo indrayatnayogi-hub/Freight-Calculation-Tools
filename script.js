@@ -7,6 +7,8 @@ const resultSection = document.getElementById('resultSection');
 const resultBody = document.getElementById('resultBody');
 const totalCbmEl = document.getElementById('totalCbm');
 const totalCgwtEl = document.getElementById('totalCgwt');
+const imagePreviewWrap = document.getElementById('imagePreviewWrap');
+const imagePreview = document.getElementById('imagePreview');
 
 function format2(n) {
   return Number(n).toFixed(2);
@@ -99,9 +101,16 @@ function renderTable(rows, totalCbm, totalCgwt) {
   copyBtn.disabled = false;
 }
 
+function showImagePreview(file) {
+  const imageUrl = URL.createObjectURL(file);
+  imagePreview.src = imageUrl;
+  imagePreviewWrap.hidden = false;
+}
+
 async function handleImageFile(file) {
   if (!file || !file.type.startsWith('image/')) return;
 
+  showImagePreview(file);
   ocrStatus.textContent = 'Membaca gambar...';
   try {
     const { data } = await Tesseract.recognize(file, 'eng');
