@@ -15,12 +15,23 @@ function format2(n) {
 }
 
 function parseLine(line) {
-  const cleaned = line.replace(/,/g, '.');
+  const cleaned = line.replace(/,/g, '.').replace(/\s+/g, ' ').trim();
   const multSymbol = '[xX*]';
+  const qtyParenRegex = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*\\(\\s*(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)(?:\\s*(?:cm|cms|mm|m))?\\s*\\)`, 'i');
   const dimQtyRegex = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)(?:\\s*(?:cm|cms|mm|m))?.{0,20}?\\b(?:x|\\*|qty|q'ty|pcs|piece|ctn)?\\s*(\\d+(?:\\.\\d+)?)`, 'i');
   const dimOnlyRegex = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)\\s*${multSymbol}\\s*(\\d+(?:\\.\\d+)?)`, 'i');
 
-  let match = cleaned.match(dimQtyRegex);
+  let match = cleaned.match(qtyParenRegex);
+  if (match) {
+    return {
+      p: parseFloat(match[2]),
+      l: parseFloat(match[3]),
+      t: parseFloat(match[4]),
+      q: parseFloat(match[1])
+    };
+  }
+
+  match = cleaned.match(dimQtyRegex);
   if (match) {
     return {
       p: parseFloat(match[1]),
