@@ -14,6 +14,26 @@ function format2(n) {
   return Number(n).toFixed(2);
 }
 
+function parseDimensionTableRow(cleaned) {
+  const unitless = cleaned
+    .replace(/\b(?:cm|cms|mm|m)\b/gi, '')
+    .replace(/[()[\]{}|<>]/g, ' ')
+    .trim();
+  const numbers = unitless.match(/\d+(?:\.\d+)?/g) || [];
+  const nonNumericSeparators = unitless.replace(/\d+(?:\.\d+)?/g, '').trim();
+
+  if (numbers.length !== 3 || nonNumericSeparators.length > 0) {
+    return null;
+  }
+
+  return {
+    p: parseFloat(numbers[0]),
+    l: parseFloat(numbers[1]),
+    t: parseFloat(numbers[2]),
+    q: 1
+  };
+}
+
 function parseLine(line) {
   const cleaned = line.replace(/,/g, '.').replace(/\s+/g, ' ').trim();
   const multSymbol = '[xX*]';
@@ -51,7 +71,7 @@ function parseLine(line) {
     };
   }
 
-  return null;
+  return parseDimensionTableRow(cleaned);
 }
 
 function calculateFromText() {
